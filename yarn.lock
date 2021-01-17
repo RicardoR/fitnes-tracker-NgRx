@@ -132,15 +132,6 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/cdk@^11.0.4":
-  version "11.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.0.4.tgz#ecdf9206b10cc0f1dc7217948b43b01604cb1406"
-  integrity sha512-suhAhsZEv+lLwm8dc524cMvO7gHPi+z2+4tueNS+zDiIObdZc4fs+KoOlnRMdYwba++X/V8mHXuDEQetl3GFcw==
-  dependencies:
-    tslib "^2.0.0"
-  optionalDependencies:
-    parse5 "^5.0.0"
-
 "@angular/cdk@angular/cdk-builds":
   version "11.2.0-next.0-sha-0911820f9"
   resolved "https://codeload.github.com/angular/cdk-builds/tar.gz/6adae925dca3bec2c37a831d4bbbe27341317902"

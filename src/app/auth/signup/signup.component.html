@@ -25,6 +25,7 @@
         Email is <strong>required</strong>
       </mat-error>
     </mat-form-field>
+
     <mat-form-field hintLabel="Should be at least 6 characters long.">
       <mat-label>Your password</mat-label>
       <input
@@ -41,6 +42,14 @@
         Has to be at least 6 characters long.
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Your birthdate</mat-label>
+      <input matInput [matDatepicker]="picker" [max]="maxDate"/>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
     <button type="submit" mat-raised-button color="primary">Submit</button>
   </form>
 </section>
