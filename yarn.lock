@@ -132,6 +132,23 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/cdk@^11.0.4":
+  version "11.0.4"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.0.4.tgz#ecdf9206b10cc0f1dc7217948b43b01604cb1406"
+  integrity sha512-suhAhsZEv+lLwm8dc524cMvO7gHPi+z2+4tueNS+zDiIObdZc4fs+KoOlnRMdYwba++X/V8mHXuDEQetl3GFcw==
+  dependencies:
+    tslib "^2.0.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
+"@angular/cdk@angular/cdk-builds":
+  version "11.2.0-next.0-sha-0911820f9"
+  resolved "https://codeload.github.com/angular/cdk-builds/tar.gz/6adae925dca3bec2c37a831d4bbbe27341317902"
+  dependencies:
+    tslib "^2.0.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
 "@angular/cli@~11.0.6":
   version "11.0.7"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-11.0.7.tgz#b1c35cd23eeb966dabb575c7ff41111507113147"
@@ -210,10 +227,23 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/flex-layout@angular/flex-layout-builds":
+  version "11.0.0-beta.33-9618c7b"
+  resolved "https://codeload.github.com/angular/flex-layout-builds/tar.gz/c9758465330946c155b587a24861a5b5943ecfcd"
+  dependencies:
+    tslib "^2.0.0"
+
 "@angular/forms@~11.0.6":
   version "11.0.9"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-11.0.9.tgz#c7238af3d42e75f436840f5cf3002cbd41811d84"
   integrity sha512-DHi4puesP5iSBToT4FZVqLYZZpZDlAy2wgBe+OhCq7GCIqi8OLejB3bp9BnUd/WnNAHJd3zEjytexih6EPE0Xg==
+  dependencies:
+    tslib "^2.0.0"
+
+"@angular/material@^11.0.4":
+  version "11.0.4"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-11.0.4.tgz#af7a8208800332dfba1dc5c8f1dbc0745f72da1f"
+  integrity sha512-yjJEl3UbJxyKZFAbhvyZGphDfhtR1vo0AnDEE3KBxAOp9oD4r7paL6ER9rSXFoNRjST56tIDbNtG/wZNtH0XDQ==
   dependencies:
     tslib "^2.0.0"
 
@@ -4060,6 +4090,11 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
+
 handle-thing@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
@@ -6191,6 +6226,11 @@ parse5-sax-parser@^6.0.1:
   dependencies:
     parse5 "^6.0.1"
 
+parse5@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.1.tgz#f68e4e5ba1852ac2cadc00f4555fff6c2abb6178"
+  integrity sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==
+
 parse5@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-6.0.1.tgz#e1a1c085c569b3dc08321184f19a39cc27f7c30b"
@@ -8273,7 +8313,7 @@ tslib@^1.10.0, tslib@^1.13.0, tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.0:
+tslib@^2.0.0, tslib@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
