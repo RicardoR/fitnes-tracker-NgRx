@@ -1,3 +1,4 @@
+import { StopTrainingComponent } from './training/current-training/stop-training.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +32,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
+    StopTrainingComponent,
   ],
   imports: [
     AppRoutingModule,
