@@ -1,10 +1,11 @@
-import { TrainingService } from './../training/training.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Subject } from 'rxjs/Subject';
 
 import { AuthData } from './auth-data.model';
+import { TrainingService } from './../training/training.service';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,8 @@ export class AuthService {
   constructor(
     private _router: Router,
     private _auth: AngularFireAuth,
-    private _trainingService: TrainingService
+    private _trainingService: TrainingService,
+    private _snackBar: MatSnackBar
   ) {}
 
   public initAuthListener(): void {
@@ -36,14 +38,14 @@ export class AuthService {
     this._auth
       .createUserWithEmailAndPassword(authData.email, authData.password)
       .then()
-      .catch((err) => console.log(err));
+      .catch((err) => this._openErrorMessage(err));
   }
 
   public login(authData: AuthData): void {
     this._auth
       .signInWithEmailAndPassword(authData.email, authData.password)
       .then()
-      .catch((err) => console.log(err));
+      .catch((err) => this._openErrorMessage(err));
   }
 
   public logout(): void {
@@ -52,5 +54,9 @@ export class AuthService {
 
   public isAuth(): boolean {
     return this._isAuthenticated;
+  }
+
+  private _openErrorMessage(err: Error): void {
+    this._snackBar.open(err.message, null, { duration: 3000 });
   }
 }
