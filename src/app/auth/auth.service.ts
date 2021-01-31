@@ -1,12 +1,11 @@
 import { UIService } from './../shared/ui.service';
+import { AuthData } from './auth-data.model';
+import { TrainingService } from './../training/training.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Subject } from 'rxjs/Subject';
-
-import { AuthData } from './auth-data.model';
-import { TrainingService } from './../training/training.service';
 
 @Injectable()
 export class AuthService {

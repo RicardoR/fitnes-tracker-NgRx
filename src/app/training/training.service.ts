@@ -1,7 +1,8 @@
-import { Subscription } from 'rxjs/Subscription';
-import { Injectable } from '@angular/core';
+import { UIService } from './../shared/ui.service';
 import { Exercise } from './exercise.model';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operators';
 
@@ -22,9 +23,13 @@ export class TrainingService {
   public exercisesChanged = new Subject<Exercise[]>();
   public finishedExercisesChanged = new Subject<Exercise[]>();
 
-  constructor(private _firestore: AngularFirestore) {}
+  constructor(
+    private _firestore: AngularFirestore,
+    private _uiService: UIService
+  ) {}
 
   public fetchAvailableExercises(): Subscription {
+    this._uiService.loadingStateChanged.next(true);
     const subscription = this._firestore
       .collection(DatabaseCollectionsNames.availableExercises)
       .snapshotChanges()
@@ -39,6 +44,7 @@ export class TrainingService {
         })
       )
       .subscribe((exercises: Exercise[]) => {
+        this._uiService.loadingStateChanged.next(false);
         this._availableExercises = exercises;
         this.exercisesChanged.next([...this._availableExercises]);
       });
