@@ -5,6 +5,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operators';
 
+const enum DatabaseCollectionsNames {
+  availableExercises = 'availableExercises',
+  finishedExercises = 'finishedExercises',
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -20,7 +25,7 @@ export class TrainingService {
 
   public fetchAvailableExercises(): Subscription {
     return this._firestore
-      .collection('availableExercises')
+      .collection(DatabaseCollectionsNames.availableExercises)
       .snapshotChanges()
       .pipe(
         map((docArray: any) => {
@@ -39,6 +44,10 @@ export class TrainingService {
   }
 
   public startExercise(selectedId: string): void {
+    this._firestore
+      .doc(`${DatabaseCollectionsNames.availableExercises}/${selectedId}`)
+      .update({ lastSelected: new Date() });
+
     this._runningExercise = this._availableExercises.find(
       (ex: Exercise) => ex.id === selectedId
     );
@@ -72,7 +81,7 @@ export class TrainingService {
 
   public fetchCompletedOrCancellExercises(): Subscription {
     return this._firestore
-      .collection('finishedExercises')
+      .collection(DatabaseCollectionsNames.finishedExercises)
       .valueChanges()
       .subscribe((exercises: Exercise[]) =>
         this.finishedExercisesChanged.next(exercises)
@@ -80,7 +89,9 @@ export class TrainingService {
   }
 
   private _addDataToDatabase(exercise: Exercise): void {
-    this._firestore.collection('finishedExercises').add(exercise);
+    this._firestore
+      .collection(DatabaseCollectionsNames.finishedExercises)
+      .add(exercise);
   }
 
   private _emitExerciseIsChanged(): void {
