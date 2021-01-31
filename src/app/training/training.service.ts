@@ -1,21 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { Exercise } from './exercise.model';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingService {
-  // todo: remove this mocked data as is fetched from firebase
-  private _availableExercises: Exercise[] = [
-    { id: 'crunches', name: 'Crunches', duration: 30, calories: 8 },
-    { id: 'touch-toes', name: 'Touch Toes', duration: 180, calories: 15 },
-    { id: 'side-lunges', name: 'Side Lunges', duration: 120, calories: 18 },
-    { id: 'burpees', name: 'Burpees', duration: 60, calories: 8 },
-  ];
+  private _availableExercises: Exercise[] = [];
   private _runningExercise: Exercise;
   private _exercisesDone: Exercise[] = [];
 
@@ -35,12 +29,12 @@ export class TrainingService {
               ...document.payload.doc.data(),
             } as Exercise;
           });
-        })
+        }),
+        tap((exercises: Exercise[]) => (this._availableExercises = exercises))
       );
   }
 
   public startExercise(selectedId: string): void {
-    // todo: fix this find method in order to use the firebase exercises stored
     this._runningExercise = this._availableExercises.find(
       (ex: Exercise) => ex.id === selectedId
     );
