@@ -14,7 +14,12 @@ export class NewTrainingComponent implements OnInit {
   constructor(private _trainingService: TrainingService) {}
 
   ngOnInit(): void {
-    this.exercises = this._trainingService.getAvailableExercises();
+    this._trainingService
+      .getAvailableExercises()
+      .subscribe((data: Exercise[]) => {
+        console.log(data);
+        this.exercises = data;
+      });
   }
 
   public onStartTraining(form: NgForm): void {

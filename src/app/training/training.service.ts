@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Exercise } from './exercise.model';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingService {
+  // todo: remove this mocked data as is fetched from firebase
   private _availableExercises: Exercise[] = [
     { id: 'crunches', name: 'Crunches', duration: 30, calories: 8 },
     { id: 'touch-toes', name: 'Touch Toes', duration: 180, calories: 15 },
@@ -17,11 +21,26 @@ export class TrainingService {
 
   public exerciseChanged = new Subject<Exercise>();
 
-  public getAvailableExercises(): Exercise[] {
-    return this._availableExercises.slice();
+  constructor(private _firestore: AngularFirestore) {}
+
+  public getAvailableExercises(): Observable<Exercise[]> {
+    return this._firestore
+      .collection('availableExercises')
+      .snapshotChanges()
+      .pipe(
+        map((docArray) => {
+          return docArray.map((document: any) => {
+            return {
+              id: document.payload.doc.id,
+              ...document.payload.doc.data(),
+            } as Exercise;
+          });
+        })
+      );
   }
 
   public startExercise(selectedId: string): void {
+    // todo: fix this find method in order to use the firebase exercises stored
     this._runningExercise = this._availableExercises.find(
       (ex: Exercise) => ex.id === selectedId
     );
