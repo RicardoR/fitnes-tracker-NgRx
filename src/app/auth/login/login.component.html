@@ -8,7 +8,12 @@
   >
     <mat-form-field>
       <mat-label>Your email</mat-label>
-      <input type="email" matInput formControlName="email" />
+      <input
+        type="email"
+        matInput
+        autocomplete="username"
+        formControlName="email"
+      />
       <mat-error
         *ngIf="
           loginForm.controls.email.hasError('email') &&
@@ -24,7 +29,12 @@
 
     <mat-form-field hintLabel="Should be at least 6 characters long.">
       <mat-label>Your password</mat-label>
-      <input type="password" matInput formControlName="password" />
+      <input
+        type="password"
+        autocomplete="current-password"
+        matInput
+        formControlName="password"
+      />
       <mat-error *ngIf="loginForm.controls.password.hasError('required')">
         Password is <strong>required</strong>
       </mat-error>

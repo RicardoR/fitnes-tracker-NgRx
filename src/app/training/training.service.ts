@@ -16,6 +16,7 @@ const enum DatabaseCollectionsNames {
 export class TrainingService {
   private _availableExercises: Exercise[] = [];
   private _runningExercise: Exercise;
+  private _firebaseSubscritions: Subscription[] = [];
 
   public exerciseChanged = new Subject<Exercise>();
   public exercisesChanged = new Subject<Exercise[]>();
@@ -24,7 +25,7 @@ export class TrainingService {
   constructor(private _firestore: AngularFirestore) {}
 
   public fetchAvailableExercises(): Subscription {
-    return this._firestore
+    const subscription = this._firestore
       .collection(DatabaseCollectionsNames.availableExercises)
       .snapshotChanges()
       .pipe(
@@ -41,6 +42,9 @@ export class TrainingService {
         this._availableExercises = exercises;
         this.exercisesChanged.next([...this._availableExercises]);
       });
+
+    this._firebaseSubscritions.push(subscription);
+    return subscription;
   }
 
   public startExercise(selectedId: string): void {
@@ -80,12 +84,14 @@ export class TrainingService {
   }
 
   public fetchCompletedOrCancellExercises(): Subscription {
-    return this._firestore
+    const subscription = this._firestore
       .collection(DatabaseCollectionsNames.finishedExercises)
       .valueChanges()
       .subscribe((exercises: Exercise[]) =>
         this.finishedExercisesChanged.next(exercises)
       );
+    this._firebaseSubscritions.push(subscription);
+    return subscription;
   }
 
   private _addDataToDatabase(exercise: Exercise): void {
@@ -97,5 +103,9 @@ export class TrainingService {
   private _emitExerciseIsChanged(): void {
     this._runningExercise = null;
     this.exerciseChanged.next(null);
+  }
+
+  public cancelSubscriptions(): void {
+    this._firebaseSubscritions.forEach((sub) => sub.unsubscribe());
   }
 }
