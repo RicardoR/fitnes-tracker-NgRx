@@ -17,12 +17,12 @@ export class TrainingService {
 
   constructor(private _firestore: AngularFirestore) {}
 
-  public getAvailableExercises(): Observable<Exercise[]> {
+  public fetchAvailableExercises(): Observable<Exercise[]> {
     return this._firestore
       .collection('availableExercises')
       .snapshotChanges()
       .pipe(
-        map((docArray) => {
+        map((docArray: any) => {
           return docArray.map((document: any) => {
             return {
               id: document.payload.doc.id,
