@@ -1,3 +1,4 @@
+import { UIService } from './../shared/ui.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,7 +17,8 @@ export class AuthService {
     private _router: Router,
     private _auth: AngularFireAuth,
     private _trainingService: TrainingService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _uiService: UIService
   ) {}
 
   public initAuthListener(): void {
@@ -35,16 +37,19 @@ export class AuthService {
   }
 
   public registerUser(authData: AuthData): void {
+    this._uiService.loadingStateChanged.next(true);
+
     this._auth
       .createUserWithEmailAndPassword(authData.email, authData.password)
-      .then()
+      .then(() => this._uiService.loadingStateChanged.next(false))
       .catch((err) => this._openErrorMessage(err));
   }
 
   public login(authData: AuthData): void {
+    this._uiService.loadingStateChanged.next(true);
     this._auth
       .signInWithEmailAndPassword(authData.email, authData.password)
-      .then()
+      .then(() => this._uiService.loadingStateChanged.next(false))
       .catch((err) => this._openErrorMessage(err));
   }
 
@@ -58,5 +63,6 @@ export class AuthService {
 
   private _openErrorMessage(err: Error): void {
     this._snackBar.open(err.message, null, { duration: 3000 });
+    this._uiService.loadingStateChanged.next(false);
   }
 }

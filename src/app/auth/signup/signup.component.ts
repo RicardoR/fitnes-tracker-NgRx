@@ -1,5 +1,7 @@
+import { UIService } from './../../shared/ui.service';
+import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from './../auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -7,15 +9,27 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
+  public isLoading = false;
   public maxDate;
   public signUpForm: FormGroup;
-  constructor(private _fb: FormBuilder, private _authService: AuthService) {}
+
+  private _loadingSubs: Subscription;
+
+  constructor(
+    private _fb: FormBuilder,
+    private _authService: AuthService,
+    private _uiService: UIService
+  ) {}
 
   ngOnInit(): void {
     this._buildForm();
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+
+    this._loadingSubs = this._uiService.loadingStateChanged.subscribe(
+      (isLoading) => (this.isLoading = isLoading)
+    );
   }
 
   private _buildForm(): void {
@@ -32,5 +46,9 @@ export class SignupComponent implements OnInit {
       email: this.signUpForm.controls.email.value,
       password: this.signUpForm.controls.password.value,
     });
+  }
+
+  public ngOnDestroy(): void {
+    this._loadingSubs.unsubscribe();
   }
 }
