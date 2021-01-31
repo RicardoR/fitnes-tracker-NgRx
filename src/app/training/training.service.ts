@@ -1,9 +1,9 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Injectable } from '@angular/core';
 import { Exercise } from './exercise.model';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +11,14 @@ import { map, tap } from 'rxjs/operators';
 export class TrainingService {
   private _availableExercises: Exercise[] = [];
   private _runningExercise: Exercise;
-  private _exercisesDone: Exercise[] = [];
 
   public exerciseChanged = new Subject<Exercise>();
+  public exercisesChanged = new Subject<Exercise[]>();
+  public finishedExercisesChanged = new Subject<Exercise[]>();
 
   constructor(private _firestore: AngularFirestore) {}
 
-  public fetchAvailableExercises(): Observable<Exercise[]> {
+  public fetchAvailableExercises(): Subscription {
     return this._firestore
       .collection('availableExercises')
       .snapshotChanges()
@@ -29,9 +30,12 @@ export class TrainingService {
               ...document.payload.doc.data(),
             } as Exercise;
           });
-        }),
-        tap((exercises: Exercise[]) => (this._availableExercises = exercises))
-      );
+        })
+      )
+      .subscribe((exercises: Exercise[]) => {
+        this._availableExercises = exercises;
+        this.exercisesChanged.next([...this._availableExercises]);
+      });
   }
 
   public startExercise(selectedId: string): void {
@@ -66,8 +70,13 @@ export class TrainingService {
     this._emitExerciseIsChanged();
   }
 
-  public getCompletedOrCancellExercises(): Exercise[] {
-    return this._exercisesDone.slice();
+  public fetchCompletedOrCancellExercises(): Subscription {
+    return this._firestore
+      .collection('finishedExercises')
+      .valueChanges()
+      .subscribe((exercises: Exercise[]) =>
+        this.finishedExercisesChanged.next(exercises)
+      );
   }
 
   private _addDataToDatabase(exercise: Exercise): void {

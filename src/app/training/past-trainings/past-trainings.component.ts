@@ -1,6 +1,13 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Exercise } from './../exercise.model';
 import { TrainingService } from './../training.service';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -10,9 +17,12 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './past-trainings.component.html',
   styleUrls: ['./past-trainings.component.scss'],
 })
-export class PastTrainingsComponent implements OnInit, AfterViewInit {
+export class PastTrainingsComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  private _exerciseSubscription: Subscription;
 
   public dataSource = new MatTableDataSource<Exercise>();
   public displayedColumns: string[] = [
@@ -26,7 +36,14 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
   constructor(private _trainingService: TrainingService) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this._trainingService.getCompletedOrCancellExercises();
+    this._trainingService.fetchCompletedOrCancellExercises();
+    this._exerciseSubscription = this._trainingService.finishedExercisesChanged.subscribe(
+      (exercises: Exercise[]) => (this.dataSource.data = exercises)
+    );
+  }
+
+  public doFilter(filter: string): void {
+    this.dataSource.filter = filter.trim().toLowerCase();
   }
 
   ngAfterViewInit(): void {
@@ -34,7 +51,7 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  public doFilter(filter: string): void {
-    this.dataSource.filter = filter.trim().toLowerCase();
+  ngOnDestroy(): void {
+    this._exerciseSubscription.unsubscribe();
   }
 }
