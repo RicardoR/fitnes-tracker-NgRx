@@ -47,28 +47,35 @@ export class TrainingService {
   }
 
   public completeExercise(): void {
-    this._exercisesDone.push({
+    this._addDataToDatabase({
       ...this._runningExercise,
       date: new Date(),
       state: 'completed',
     });
-    this._runningExercise = null;
-    this.exerciseChanged.next(null);
+    this._emitExerciseIsChanged();
   }
 
   public cancelExercise(progress: number): void {
-    this._exercisesDone.push({
+    this._addDataToDatabase({
       ...this._runningExercise,
       duration: this._runningExercise.duration * (progress / 100),
       calories: this._runningExercise.calories * (progress / 100),
       date: new Date(),
       state: 'cancelled',
     });
-    this._runningExercise = null;
-    this.exerciseChanged.next(null);
+    this._emitExerciseIsChanged();
   }
 
   public getCompletedOrCancellExercises(): Exercise[] {
     return this._exercisesDone.slice();
+  }
+
+  private _addDataToDatabase(exercise: Exercise): void {
+    this._firestore.collection('finishedExercises').add(exercise);
+  }
+
+  private _emitExerciseIsChanged(): void {
+    this._runningExercise = null;
+    this.exerciseChanged.next(null);
   }
 }
