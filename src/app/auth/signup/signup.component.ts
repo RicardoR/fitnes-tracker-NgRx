@@ -29,8 +29,8 @@ export class SignupComponent implements OnInit {
 
   public onSubmit(): void {
     this._authService.registerUser({
-      email: this.signUpForm.controls.email.value(),
-      password: this.signUpForm.controls.password.value(),
+      email: this.signUpForm.controls.email.value,
+      password: this.signUpForm.controls.password.value,
     });
   }
 }
