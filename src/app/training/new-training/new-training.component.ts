@@ -17,7 +17,7 @@ export class NewTrainingComponent implements OnInit {
     this.exercises = this._trainingService.getAvailableExercises();
   }
 
-  public onStartTraining(form: NgForm) {
+  public onStartTraining(form: NgForm): void {
     this._trainingService.startExercise(form.value.selectedExercise);
   }
 }

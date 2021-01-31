@@ -42,7 +42,7 @@ export class AuthService {
     return this._user != null;
   }
 
-  private authSuccesfully() {
+  private authSuccesfully(): void {
     this._router.navigate(['training']);
     this.authChange.next(true);
   }

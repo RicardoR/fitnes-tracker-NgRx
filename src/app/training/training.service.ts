@@ -17,11 +17,11 @@ export class TrainingService {
 
   public exerciseChanged = new Subject<Exercise>();
 
-  public getAvailableExercises() {
+  public getAvailableExercises(): Exercise[] {
     return this._availableExercises.slice();
   }
 
-  public startExercise(selectedId: string) {
+  public startExercise(selectedId: string): void {
     this._runningExercise = this._availableExercises.find(
       (ex: Exercise) => ex.id === selectedId
     );
@@ -33,7 +33,7 @@ export class TrainingService {
     return { ...this._runningExercise };
   }
 
-  public completeExercise() {
+  public completeExercise(): void {
     this._exercisesDone.push({
       ...this._runningExercise,
       date: new Date(),
@@ -43,7 +43,7 @@ export class TrainingService {
     this.exerciseChanged.next(null);
   }
 
-  public cancelExercise(progress: number) {
+  public cancelExercise(progress: number): void {
     this._exercisesDone.push({
       ...this._runningExercise,
       duration: this._runningExercise.duration * (progress / 100),
@@ -55,7 +55,7 @@ export class TrainingService {
     this.exerciseChanged.next(null);
   }
 
-  public getCompletedOrCancellExercises() {
+  public getCompletedOrCancellExercises(): Exercise[] {
     return this._exercisesDone.slice();
   }
 }

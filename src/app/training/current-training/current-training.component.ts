@@ -21,7 +21,7 @@ export class CurrentTrainingComponent implements OnInit {
     this._startOrResumeTimer();
   }
 
-  private _startOrResumeTimer() {
+  private _startOrResumeTimer(): void {
     const step =
       (this._trainingService.getRunningExercise().duration / 100) * 1000;
 
@@ -34,7 +34,7 @@ export class CurrentTrainingComponent implements OnInit {
     }, step);
   }
 
-  public cancelTraining() {
+  public cancelTraining(): void {
     clearInterval(this._timer);
 
     const dialog = this._dialog.open(StopTrainingComponent, {

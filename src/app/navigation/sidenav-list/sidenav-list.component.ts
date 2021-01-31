@@ -18,17 +18,17 @@ export class SidenavListComponent implements OnInit, OnDestroy {
   private sidenavToggle = new EventEmitter<void>();
 
   private _authSubscription: Subscription;
-  public isAuth: boolean = false;
+  public isAuth = false;
 
   constructor(private _authService: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._authSubscription = this._authService.authChange.subscribe(
       (authStatus: boolean) => (this.isAuth = authStatus)
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._authSubscription.unsubscribe();
   }
 
