@@ -43,11 +43,18 @@ export class TrainingService {
           });
         })
       )
-      .subscribe((exercises: Exercise[]) => {
-        this._uiService.loadingStateChanged.next(false);
-        this._availableExercises = exercises;
-        this.exercisesChanged.next([...this._availableExercises]);
-      });
+      .subscribe(
+        (exercises: Exercise[]) => {
+          this._uiService.loadingStateChanged.next(false);
+          this._availableExercises = exercises;
+          this.exercisesChanged.next([...this._availableExercises]);
+        },
+        (error) => {
+          this._uiService.loadingStateChanged.next(false);
+          this._uiService.showSnackBar('Fetching exercises failed', null, 3000);
+          this.exercisesChanged.next(null);
+        }
+      );
 
     this._firebaseSubscritions.push(subscription);
     return subscription;
