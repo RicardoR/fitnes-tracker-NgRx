@@ -5,7 +5,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgModule } from '@angular/core';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { AuthService } from './auth/auth.service';
 import { AppRoutingModule } from './app-routing.module';
@@ -37,12 +36,10 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     FlexLayoutModule,
 
-    
-    MaterialModule,
-
     // Firebase
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
+
+    MaterialModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
