@@ -1,3 +1,4 @@
+import { TrainingRoutingModule } from './training-routing.module';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { NgModule } from '@angular/core';
 
@@ -22,6 +23,8 @@ import { CurrentTrainingComponent } from './current-training/current-training.co
     AngularFirestoreModule,
 
     SharedModule,
+
+    TrainingRoutingModule,
   ],
 })
 export class TrainingModule {}

@@ -1,4 +1,3 @@
-import { TrainingModule } from './training/training.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -28,7 +27,6 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     // Application
     AuthModule,
-    TrainingModule,
 
     // Angular
     AppRoutingModule,
