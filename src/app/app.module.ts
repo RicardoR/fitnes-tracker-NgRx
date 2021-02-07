@@ -19,7 +19,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { environment } from '../environments/environment';
 
 import { AuthModule } from './auth/auth.module';
-import { appReducer } from './app.reducer';
+import { reducers } from './app.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +44,7 @@ import { appReducer } from './app.reducer';
     MaterialModule,
 
     // NgRxjs
-    StoreModule.forRoot({ ui: appReducer }),
+    StoreModule.forRoot(reducers),
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

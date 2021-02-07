@@ -7,7 +7,8 @@ import { Store } from '@ngrx/store';
 import { UIService } from './../shared/ui.service';
 import { AuthData } from './auth-data.model';
 import { TrainingService } from './../training/training.service';
-import { State, STATE_TYPES } from '../app.reducer';
+import { State } from '../app.reducer';
+import { UIStartLoading, UIStopLoading } from './../shared/reducers/ui.actions';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
     private _auth: AngularFireAuth,
     private _trainingService: TrainingService,
     private _uiService: UIService,
-    private _store: Store<{ ui: State }>
+    private _store: Store<State>
   ) {}
 
   public initAuthListener(): void {
@@ -38,18 +39,18 @@ export class AuthService {
   }
 
   public registerUser(authData: AuthData): void {
-    this._store.dispatch({ type: STATE_TYPES.START_LOADING });
+    this._store.dispatch(new UIStartLoading());
     this._auth
       .createUserWithEmailAndPassword(authData.email, authData.password)
-      .then(() => this._store.dispatch({ type: STATE_TYPES.STOP_LOADING }))
+      .then(() => this._store.dispatch(new UIStopLoading()))
       .catch((err) => this._manageError(err));
   }
 
   public login(authData: AuthData): void {
-    this._store.dispatch({ type: STATE_TYPES.START_LOADING });
+    this._store.dispatch(new UIStartLoading());
     this._auth
       .signInWithEmailAndPassword(authData.email, authData.password)
-      .then(() => this._store.dispatch({ type: STATE_TYPES.STOP_LOADING }))
+      .then(() => this._store.dispatch(new UIStopLoading()))
       .catch((err) => this._manageError(err));
   }
 
@@ -63,6 +64,6 @@ export class AuthService {
 
   private _manageError(err: Error): void {
     this._uiService.showSnackBar(err.message, null, 3000);
-    this._store.dispatch({ type: STATE_TYPES.STOP_LOADING });
+    this._store.dispatch(new UIStopLoading());
   }
 }

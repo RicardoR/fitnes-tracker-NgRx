@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthService } from './../auth.service';
-import { State } from './../../app.reducer';
+import { State, getIsLoading } from './../../app.reducer';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +19,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private _store: Store<{ ui: State }>
+    private _store: Store<State>
   ) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this._store.pipe(map((state) => state.ui.isLoading));
+    this.isLoading$ = this._store.select(getIsLoading);
 
     this.loginForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
