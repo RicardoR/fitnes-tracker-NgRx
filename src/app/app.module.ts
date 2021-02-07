@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 
 import { AngularFireModule } from '@angular/fire';
 
+import { StoreModule } from '@ngrx/store';
+
 import { AuthService } from './auth/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -17,6 +19,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { environment } from '../environments/environment';
 
 import { AuthModule } from './auth/auth.module';
+import { appReducer } from './app.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +40,11 @@ import { AuthModule } from './auth/auth.module';
     // Firebase
     AngularFireModule.initializeApp(environment.firebase),
 
+    // Angular material
     MaterialModule,
+
+    // NgRxjs
+    StoreModule.forRoot({ ui: appReducer }),
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
