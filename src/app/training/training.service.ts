@@ -2,9 +2,8 @@ import { UIService } from './../shared/ui.service';
 import { Exercise } from './exercise.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operators';
+import { Subscription, Subject } from 'rxjs';
 
 const enum DatabaseCollectionsNames {
   availableExercises = 'availableExercises',

@@ -1,8 +1,8 @@
-import { Subscription } from 'rxjs/Subscription';
 import { UIService } from './../../shared/ui.service';
 import { AuthService } from './../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',

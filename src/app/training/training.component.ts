@@ -1,7 +1,7 @@
-import { Subscription } from 'rxjs/Subscription';
 import { Exercise } from './exercise.model';
 import { TrainingService } from './training.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-training',

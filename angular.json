@@ -32,7 +32,8 @@
               "src/styles.scss"
             ],
             "allowedCommonJsDependencies": [
-              "rxjs"
+              "rxjs",
+              "hammerjs"
             ],
             "scripts": []
           },

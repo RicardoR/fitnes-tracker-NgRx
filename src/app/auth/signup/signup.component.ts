@@ -1,8 +1,8 @@
 import { UIService } from './../../shared/ui.service';
-import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from './../auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
