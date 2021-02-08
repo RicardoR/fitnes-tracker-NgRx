@@ -1,8 +1,10 @@
-import { UIService } from './../../shared/ui.service';
-import { AuthService } from './../auth.service';
+import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+
+import { getIsLoading, State } from './../../app.reducer';
+import { AuthService } from './../auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit, OnDestroy {
-  public isLoading = false;
+  public isLoading$: Observable<boolean>;
   public maxDate;
   public signUpForm: FormGroup;
 
@@ -19,7 +21,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private _uiService: UIService
+    private _store: Store<State>
   ) {}
 
   ngOnInit(): void {
@@ -27,9 +29,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
 
-    this._loadingSubs = this._uiService.loadingStateChanged.subscribe(
-      (isLoading) => (this.isLoading = isLoading)
-    );
+    this.isLoading$ = this._store.select(getIsLoading);
   }
 
   private _buildForm(): void {

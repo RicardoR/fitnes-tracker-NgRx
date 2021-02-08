@@ -2,7 +2,6 @@ import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { AuthService } from './../auth.service';
 import { State, getIsLoading } from './../../app.reducer';

@@ -1,9 +1,13 @@
-import { UIService } from './../shared/ui.service';
-import { Exercise } from './exercise.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { Subscription, Subject } from 'rxjs';
+
+import { Exercise } from './exercise.model';
+import { State } from '../app.reducer';
+import { UIService } from './../shared/ui.service';
+import { UIStartLoading, UIStopLoading } from '../shared/reducers/ui.actions';
 
 const enum DatabaseCollectionsNames {
   availableExercises = 'availableExercises',
@@ -24,11 +28,12 @@ export class TrainingService {
 
   constructor(
     private _firestore: AngularFirestore,
-    private _uiService: UIService
+    private _uiService: UIService,
+    private _store: Store<State>
   ) {}
 
   public fetchAvailableExercises(): Subscription {
-    this._uiService.loadingStateChanged.next(true);
+    this._store.dispatch(new UIStartLoading());
     const subscription = this._firestore
       .collection(DatabaseCollectionsNames.availableExercises)
       .snapshotChanges()
@@ -44,12 +49,12 @@ export class TrainingService {
       )
       .subscribe(
         (exercises: Exercise[]) => {
-          this._uiService.loadingStateChanged.next(false);
+          this._store.dispatch(new UIStopLoading());
           this._availableExercises = exercises;
           this.exercisesChanged.next([...this._availableExercises]);
         },
         (error) => {
-          this._uiService.loadingStateChanged.next(false);
+          this._store.dispatch(new UIStopLoading());
           this._uiService.showSnackBar('Fetching exercises failed', null, 3000);
           this.exercisesChanged.next(null);
         }

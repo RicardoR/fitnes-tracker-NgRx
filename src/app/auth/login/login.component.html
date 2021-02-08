@@ -41,7 +41,7 @@
     </mat-form-field>
 
     <button
-      *ngIf="!(isLoading$ | async)"
+      *ngIf="(isLoading$ | async) === false"
       type="submit"
       [disabled]="loginForm.invalid"
       mat-raised-button
