@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 
 import { Exercise } from './../exercise.model';
 import { TrainingService } from './../training.service';
-import { State, getIsLoading } from './../../app.reducer';
+import * as fromRootReducer from './../../app.reducer';
 
 @Component({
   selector: 'app-new-training',
@@ -20,11 +20,11 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   constructor(
     private _trainingService: TrainingService,
-    private _store: Store<State>
+    private _store: Store<fromRootReducer.State>
   ) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this._store.select(getIsLoading);
+    this.isLoading$ = this._store.select(fromRootReducer.getIsLoading);
 
     this._exercisesChangedSubscription = this._trainingService.exercisesChanged.subscribe(
       (exercises: Exercise[]) => (this.exercises = exercises)

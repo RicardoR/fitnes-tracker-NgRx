@@ -1,5 +1,3 @@
-import { Exercise } from './../exercise.model';
-import { TrainingService } from './../training.service';
 import {
   AfterViewInit,
   Component,
@@ -11,6 +9,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+
+import { Exercise } from './../exercise.model';
+import { TrainingService } from './../training.service';
 
 @Component({
   selector: 'app-past-trainings',

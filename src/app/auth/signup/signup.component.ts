@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 
-import { getIsLoading, State } from './../../app.reducer';
+import * as fromRootReducer from './../../app.reducer';
 import { AuthService } from './../auth.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private _store: Store<State>
+    private _store: Store<fromRootReducer.State>
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
 
-    this.isLoading$ = this._store.select(getIsLoading);
+    this.isLoading$ = this._store.select(fromRootReducer.getIsLoading);
   }
 
   private _buildForm(): void {

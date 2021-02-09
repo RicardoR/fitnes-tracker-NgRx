@@ -5,9 +5,9 @@ import { map } from 'rxjs/operators';
 import { Subscription, Subject } from 'rxjs';
 
 import { Exercise } from './exercise.model';
-import { State } from '../app.reducer';
 import { UIService } from './../shared/ui.service';
-import { UIStartLoading, UIStopLoading } from '../shared/reducers/ui.actions';
+import * as fromUIActions from '../shared/reducers/ui.actions';
+import * as fromRootReducer from '../app.reducer';
 
 const enum DatabaseCollectionsNames {
   availableExercises = 'availableExercises',
@@ -29,11 +29,11 @@ export class TrainingService {
   constructor(
     private _firestore: AngularFirestore,
     private _uiService: UIService,
-    private _store: Store<State>
+    private _store: Store<fromRootReducer.State>
   ) {}
 
   public fetchAvailableExercises(): Subscription {
-    this._store.dispatch(new UIStartLoading());
+    this._store.dispatch(new fromUIActions.StartLoading());
     const subscription = this._firestore
       .collection(DatabaseCollectionsNames.availableExercises)
       .snapshotChanges()
@@ -49,12 +49,12 @@ export class TrainingService {
       )
       .subscribe(
         (exercises: Exercise[]) => {
-          this._store.dispatch(new UIStopLoading());
+          this._store.dispatch(new fromUIActions.StopLoading());
           this._availableExercises = exercises;
           this.exercisesChanged.next([...this._availableExercises]);
         },
         (error) => {
-          this._store.dispatch(new UIStopLoading());
+          this._store.dispatch(new fromUIActions.StopLoading());
           this._uiService.showSnackBar('Fetching exercises failed', null, 3000);
           this.exercisesChanged.next(null);
         }

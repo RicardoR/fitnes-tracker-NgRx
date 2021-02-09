@@ -1,5 +1,6 @@
+import { Component, OnInit } from '@angular/core';
+
 import { AuthService } from 'src/app/auth/auth.service';
-import { Component, ViewChild, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',

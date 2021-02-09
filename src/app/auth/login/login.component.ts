@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AuthService } from './../auth.service';
-import { State, getIsLoading } from './../../app.reducer';
+import * as fromRootReducer from './../../app.reducer';
 
 @Component({
   selector: 'app-login',
@@ -18,11 +18,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private _store: Store<State>
+    private _store: Store<fromRootReducer.State>
   ) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this._store.select(getIsLoading);
+    this.isLoading$ = this._store.select(fromRootReducer.getIsLoading);
 
     this.loginForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],

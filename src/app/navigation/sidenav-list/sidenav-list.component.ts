@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/auth.service';
-import { getIsAuth, State } from './../../app.reducer';
+import * as fromRootReducer from './../../app.reducer';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -18,11 +18,11 @@ export class SidenavListComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
-    private _store: Store<State>
+    private _store: Store<fromRootReducer.State>
   ) {}
 
   ngOnInit(): void {
-    this.isAuth$ = this._store.select(getIsAuth);
+    this.isAuth$ = this._store.select(fromRootReducer.getIsAuth);
   }
 
   public onToggleSidenav(): void {
