@@ -8,8 +8,8 @@ import * as fromUIReducer from './shared/reducers/ui.reducer';
 import * as fromAuthReducer from './auth/reducers/auth.reducer';
 
 export interface State {
-  ui: fromUIReducer.UIState;
-  auth: fromAuthReducer.AuthState;
+  ui: fromUIReducer.State;
+  auth: fromAuthReducer.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -17,13 +17,13 @@ export const reducers: ActionReducerMap<State> = {
   auth: fromAuthReducer.authReducer,
 };
 
-export const getUiState = createFeatureSelector<fromUIReducer.UIState>('ui');
+export const getUiState = createFeatureSelector<fromUIReducer.State>('ui');
 export const getIsLoading = createSelector(
   getUiState,
   fromUIReducer.UIisLoading
 );
 
-export const getAuthState = createFeatureSelector<fromAuthReducer.AuthState>(
+export const getAuthState = createFeatureSelector<fromAuthReducer.State>(
   'auth'
 );
 export const getIsAuth = createSelector(
