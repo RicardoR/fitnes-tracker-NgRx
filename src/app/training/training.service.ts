@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import * as fromRootReducer from '../app.reducer';
 import * as fromUIActions from '../shared/reducers/ui.actions';
 import { UIService } from './../shared/ui.service';
-import { Exercise } from './exercise.model';
+import { Exercise } from './models/exercise.model';
 
 const enum DatabaseCollectionsNames {
   availableExercises = 'availableExercises',

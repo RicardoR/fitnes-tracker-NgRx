@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { Exercise } from '../models/exercise.model';
 import * as fromRootReducer from './../../app.reducer';
-import { Exercise } from './../exercise.model';
 import { TrainingService } from './../training.service';
 
 @Component({
