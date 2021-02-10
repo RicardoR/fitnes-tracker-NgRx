@@ -1,11 +1,10 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
-
+import { Observable, Subscription } from 'rxjs';
+import * as fromRootReducer from './../../app.reducer';
 import { Exercise } from './../exercise.model';
 import { TrainingService } from './../training.service';
-import * as fromRootReducer from './../../app.reducer';
 
 @Component({
   selector: 'app-new-training',

@@ -9,7 +9,6 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-
 import * as fromRootReducer from '../app.reducer';
 
 @Injectable()

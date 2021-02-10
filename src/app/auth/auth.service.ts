@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
-import { UIService } from './../shared/ui.service';
-import { AuthData } from './auth-data.model';
-import { TrainingService } from './../training/training.service';
-
 import * as fromRootReducer from '../app.reducer';
 import * as fromUIActions from './../shared/reducers/ui.actions';
+import { UIService } from './../shared/ui.service';
+import { TrainingService } from './../training/training.service';
+import { AuthData } from './auth-data.model';
 import * as fromAuthActions from './reducers/auth.actions';
+
 @Injectable()
 export class AuthService {
   constructor(

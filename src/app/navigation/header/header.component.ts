@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import * as fromRootReducer from '../../app.reducer';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

@@ -1,8 +1,7 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
-
+import { Observable, Subscription } from 'rxjs';
 import * as fromRootReducer from './../../app.reducer';
 import { AuthService } from './../auth.service';
 

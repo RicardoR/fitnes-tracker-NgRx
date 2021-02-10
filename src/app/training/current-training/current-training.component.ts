@@ -1,7 +1,7 @@
-import { TrainingService } from './../training.service';
-import { StopTrainingComponent } from './stop-training.component';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TrainingService } from './../training.service';
+import { StopTrainingComponent } from './stop-training.component';
 
 @Component({
   selector: 'app-current-training',

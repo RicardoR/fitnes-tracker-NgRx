@@ -1,12 +1,12 @@
+import * as fromRoot from '../../app.reducer';
 import { Exercise } from './../exercise.model';
 import {
-  TrainingActions,
   SET_AVAILABLE_TRAININGS,
   SET_FINISHED_TRAININGS,
   START_TRAINING,
   STOP_TRAINING,
+  TrainingActions,
 } from './training.actions';
-import * as fromRoot from '../../app.reducer';
 
 export interface TrainingState {
   availableExercises: Exercise[];
@@ -61,5 +61,4 @@ export const getAvailableExercises = (state: TrainingState) =>
 export const getFinishedExercises = (state: TrainingState) =>
   state.finishedExercises;
 
-export const getActiveTraining = (state: TrainingState) =>
-  state.activeTraining;
+export const getActiveTraining = (state: TrainingState) => state.activeTraining;

@@ -3,9 +3,8 @@ import {
   createFeatureSelector,
   createSelector,
 } from '@ngrx/store';
-
-import * as fromUIReducer from './shared/reducers/ui.reducer';
 import * as fromAuthReducer from './auth/reducers/auth.reducer';
+import * as fromUIReducer from './shared/reducers/ui.reducer';
 
 export interface State {
   ui: fromUIReducer.State;

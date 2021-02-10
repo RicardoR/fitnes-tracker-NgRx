@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
+import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Subscription, Subject } from 'rxjs';
-
-import { Exercise } from './exercise.model';
-import { UIService } from './../shared/ui.service';
-import * as fromUIActions from '../shared/reducers/ui.actions';
 import * as fromRootReducer from '../app.reducer';
+import * as fromUIActions from '../shared/reducers/ui.actions';
+import { UIService } from './../shared/ui.service';
+import { Exercise } from './exercise.model';
 
 const enum DatabaseCollectionsNames {
   availableExercises = 'availableExercises',
