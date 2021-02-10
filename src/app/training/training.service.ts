@@ -3,10 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as fromRootReducer from '../app.reducer';
 import * as fromUIActions from '../shared/reducers/ui.actions';
 import { UIService } from './../shared/ui.service';
 import { Exercise } from './models/exercise.model';
+import * as TrainingActions from './reducers/training.actions';
+import * as fromTraining from './reducers/training.reducer';
 
 const enum DatabaseCollectionsNames {
   availableExercises = 'availableExercises',
@@ -17,18 +18,13 @@ const enum DatabaseCollectionsNames {
   providedIn: 'root',
 })
 export class TrainingService {
-  private _availableExercises: Exercise[] = [];
   private _runningExercise: Exercise;
   private _firebaseSubscritions: Subscription[] = [];
-
-  public exerciseChanged = new Subject<Exercise>();
-  public exercisesChanged = new Subject<Exercise[]>();
-  public finishedExercisesChanged = new Subject<Exercise[]>();
 
   constructor(
     private _firestore: AngularFirestore,
     private _uiService: UIService,
-    private _store: Store<fromRootReducer.State>
+    private _store: Store<fromTraining.State>
   ) {}
 
   public fetchAvailableExercises(): Subscription {
@@ -49,13 +45,14 @@ export class TrainingService {
       .subscribe(
         (exercises: Exercise[]) => {
           this._store.dispatch(new fromUIActions.StopLoading());
-          this._availableExercises = exercises;
-          this.exercisesChanged.next([...this._availableExercises]);
+          this._store.dispatch(
+            new TrainingActions.SetAvailableTrainings(exercises)
+          );
         },
         (error) => {
           this._store.dispatch(new fromUIActions.StopLoading());
           this._uiService.showSnackBar('Fetching exercises failed', null, 3000);
-          this.exercisesChanged.next(null);
+          this._store.dispatch(new TrainingActions.SetAvailableTrainings([]));
         }
       );
 
@@ -68,11 +65,7 @@ export class TrainingService {
       .doc(`${DatabaseCollectionsNames.availableExercises}/${selectedId}`)
       .update({ lastSelected: new Date() });
 
-    this._runningExercise = this._availableExercises.find(
-      (ex: Exercise) => ex.id === selectedId
-    );
-
-    this.exerciseChanged.next({ ...this._runningExercise });
+    this._store.dispatch(new TrainingActions.StartTraining(selectedId));
   }
 
   public getRunningExercise(): Exercise {
@@ -85,7 +78,7 @@ export class TrainingService {
       date: new Date(),
       state: 'completed',
     });
-    this._emitExerciseIsChanged();
+    this._store.dispatch(new TrainingActions.StopTraining());
   }
 
   public cancelExercise(progress: number): void {
@@ -96,7 +89,7 @@ export class TrainingService {
       date: new Date(),
       state: 'cancelled',
     });
-    this._emitExerciseIsChanged();
+    this._store.dispatch(new TrainingActions.StopTraining());
   }
 
   public fetchCompletedOrCancellExercises(): Subscription {
@@ -104,7 +97,9 @@ export class TrainingService {
       .collection(DatabaseCollectionsNames.finishedExercises)
       .valueChanges()
       .subscribe((exercises: Exercise[]) =>
-        this.finishedExercisesChanged.next(exercises)
+        this._store.dispatch(
+          new TrainingActions.SetFinishedTrainings(exercises)
+        )
       );
     this._firebaseSubscritions.push(subscription);
     return subscription;
@@ -114,11 +109,6 @@ export class TrainingService {
     this._firestore
       .collection(DatabaseCollectionsNames.finishedExercises)
       .add(exercise);
-  }
-
-  private _emitExerciseIsChanged(): void {
-    this._runningExercise = null;
-    this.exerciseChanged.next(null);
   }
 
   public cancelSubscriptions(): void {
