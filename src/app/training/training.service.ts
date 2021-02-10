@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
-import { Subject, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import * as fromUIActions from '../shared/reducers/ui.actions';
 import { UIService } from './../shared/ui.service';
 import { Exercise } from './models/exercise.model';
@@ -18,7 +18,6 @@ const enum DatabaseCollectionsNames {
   providedIn: 'root',
 })
 export class TrainingService {
-  private _runningExercise: Exercise;
   private _firebaseSubscritions: Subscription[] = [];
 
   constructor(
@@ -68,28 +67,34 @@ export class TrainingService {
     this._store.dispatch(new TrainingActions.StartTraining(selectedId));
   }
 
-  public getRunningExercise(): Exercise {
-    return { ...this._runningExercise };
-  }
-
   public completeExercise(): void {
-    this._addDataToDatabase({
-      ...this._runningExercise,
-      date: new Date(),
-      state: 'completed',
-    });
-    this._store.dispatch(new TrainingActions.StopTraining());
+    this._store
+      .select(fromTraining.getActiveTraining)
+      .pipe(take(1))
+      .subscribe((exercise: Exercise) => {
+        this._addDataToDatabase({
+          ...exercise,
+          date: new Date(),
+          state: 'completed',
+        });
+        this._store.dispatch(new TrainingActions.StopTraining());
+      });
   }
 
   public cancelExercise(progress: number): void {
-    this._addDataToDatabase({
-      ...this._runningExercise,
-      duration: this._runningExercise.duration * (progress / 100),
-      calories: this._runningExercise.calories * (progress / 100),
-      date: new Date(),
-      state: 'cancelled',
-    });
-    this._store.dispatch(new TrainingActions.StopTraining());
+    this._store
+      .select(fromTraining.getActiveTraining)
+      .pipe(take(1))
+      .subscribe((exercise: Exercise) => {
+        this._addDataToDatabase({
+          ...exercise,
+          duration: exercise.duration * (progress / 100),
+          calories: exercise.calories * (progress / 100),
+          date: new Date(),
+          state: 'cancelled',
+        });
+        this._store.dispatch(new TrainingActions.StopTraining());
+      });
   }
 
   public fetchCompletedOrCancellExercises(): Subscription {

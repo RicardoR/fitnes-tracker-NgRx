@@ -37,9 +37,9 @@ export class PastTrainingsComponent
 
   ngOnInit(): void {
     this._trainingService.fetchCompletedOrCancellExercises();
-    this._exerciseSubscription = this._trainingService.finishedExercisesChanged.subscribe(
-      (exercises: Exercise[]) => (this.dataSource.data = exercises)
-    );
+    // this._exerciseSubscription = this._trainingService.finishedExercisesChanged.subscribe(
+    //   (exercises: Exercise[]) => (this.dataSource.data = exercises)
+    // );
   }
 
   public doFilter(filter: string): void {
