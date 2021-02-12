@@ -24,7 +24,6 @@ export class NewTrainingComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading$ = this._store.select(fromRootReducer.getIsLoading);
     this.exercises$ = this._store.select(fromTraining.getAvailableExercises);
-    this.exercises$.subscribe((data) => console.log('data', data));
     this.fetchExercises();
   }
 
