@@ -25,7 +25,7 @@
         fxLayoutAlign="center"
       >
         <button
-          *ngIf="exercises$ | async"
+          *ngIf="(exercises$ | async)?.length > 0"
           type="submit"
           mat-button
           [disabled]="f.invalid"
@@ -33,7 +33,7 @@
           Start
         </button>
         <button
-          *ngIf="!(exercises$ | async)"
+          *ngIf="(exercises$ | async)?.length == 0"
           type="button"
           (click)="fetchExercises()"
           mat-button
